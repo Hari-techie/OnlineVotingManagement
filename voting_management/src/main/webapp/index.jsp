@@ -9,7 +9,8 @@
     <h2>ONLINE VOTING SYSTEM</h2>
 </head>
 
-<body> <a href="signup.html">NEW USER</a> <a href="login.html">EXISTING USER</a> <a href="result.html">POLLING
-        DETAILS</a></body>
-
+<body> 
+    <a href="signup.html">NEW USER</a> 
+    <a href="login.html">EXISTING USER</a> 
+</body>
 </html>

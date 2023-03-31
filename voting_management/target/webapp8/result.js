@@ -8,20 +8,50 @@ function getAllVotes() {
         if (this.readyState == 4 && this.status == 200) {
             var response = JSON.parse(xhttp.responseText);
             console.log(response.nonPollingVotersList);
-            _displayNonPolling(response.nonPollingVotersList);
-            _displayPartyCounts(response.partyCountList);
-            _displayGenderCounts(response.genderCountList);
-            _displayPartyCountsByWard(response.groupedVotesbyward);
-            displayGraphForKeyValue(response.genderCountList);
-            displayGraphForKeyValueParty(response.partyCountList);
-            displayGraphForKeyValuePartyWardWise(response.groupedVotesbyward);
+
+            const mpnonpoll = "mpnonpoll";
+            const mlanonpoll = "mlanonpoll";
+           
+            const mpparty = "mpparty";
+            const mlaparty = "mlaparty";
+
+            const mpgender = "mpgender";
+            const mlagender = "mlagender";
+
+            const mpward = "mpward";
+            const mlaward = "mlaward";
+
+            const mpgenderChart = "mpgenderChart";
+            const mlagenderChart = "mlagenderChart";
+
+            const mppartyChart = "mppartyChart";
+            const mlapartyChart = "mlapartyChart";
+
+            const mpmyChart = "mpmyChart";
+            const mlamyChart = "mlamyChart";
+
+            _displayNonPolling(response.nonPollingVotersListForMP,mpnonpoll);
+            _displayPartyCounts(response.partyCountListForMP,mpparty);
+            _displayGenderCounts(response.genderCountListMP,mpgender);
+            _displayPartyCountsByWard(response.groupedVotesbywardMP, mpward);
+            displayGraphForKeyValue(response.genderCountListMP,mpgenderChart);
+            displayGraphForKeyValueParty(response.partyCountListForMP,mppartyChart);
+            displayGraphForKeyValuePartyWardWise(response.groupedVotesbywardMP,mpmyChart);
+
+            _displayNonPolling(response.nonPollingVotersListForMLA,mlanonpoll);
+            _displayPartyCounts(response.partyCountListForMLA,mlaparty);
+            _displayGenderCounts(response.genderCountListMLa,mlagender);
+            _displayPartyCountsByWard(response.groupedVotesbywardMLA, mlaward);
+            displayGraphForKeyValue(response.genderCountListMLa,mlagenderChart);
+            displayGraphForKeyValueParty(response.partyCountListForMLA,mlapartyChart);
+            displayGraphForKeyValuePartyWardWise(response.groupedVotesbywardMLA,mlamyChart);
         }
     };
     xhttp.open("GET", uri, true);
     xhttp.send();
 }
 
-function _displayNonPolling(data) {
+function _displayNonPolling(data,id) {
     pollingDetails = data;
     console.log(data);
     var html = "<table border='1|1'>";
@@ -33,10 +63,10 @@ function _displayNonPolling(data) {
         html += "</tr>";
     }
     html += "</table>";
-    document.getElementById("nonpoll").innerHTML = html;
+    document.getElementById(id).innerHTML = html;
 }
 
-function _displayPartyCounts(data) {
+function _displayPartyCounts(data,id) {
     console.log(data);
     var html = "<table border='1|1'>";
     html += "<tr>";
@@ -50,10 +80,10 @@ function _displayPartyCounts(data) {
         html += "</tr>";
     });
     html += "</table>";
-    document.getElementById("party").innerHTML = html;
+    document.getElementById(id).innerHTML = html;
 }
 
-function _displayGenderCounts(data) {
+function _displayGenderCounts(data,id) {
     console.log(data);
     var html = "<table border='1|1'>";
     html += "<tr>";
@@ -67,10 +97,10 @@ function _displayGenderCounts(data) {
         html += "</tr>";
     });
     html += "</table>";
-    document.getElementById("gender").innerHTML = html;
+    document.getElementById(id).innerHTML = html;
 }
 
-function _displayPartyCountsByWard(data) {
+function _displayPartyCountsByWard(data,id) {
     console.log(data);
     var html = "<table border='1|1'>";
     html += "<tr>";
@@ -88,14 +118,14 @@ function _displayPartyCountsByWard(data) {
         });
     });
     html += "</table>";
-    document.getElementById("ward").innerHTML = html;
+    document.getElementById(id).innerHTML = html;
 }
 
-function displayGraphForKeyValue(obj) {
+function displayGraphForKeyValue(obj,id) {
     console.log("graph");
     const labels = Object.keys(obj);
     const data = Object.values(obj);
-    const ctx = document.getElementById("genderChart").getContext("2d");
+    const ctx = document.getElementById(id).getContext("2d");
     const genderChart = new Chart(ctx, {
         type: "bar",
         data: {
@@ -123,11 +153,11 @@ function displayGraphForKeyValue(obj) {
         }
     });
 }
-function displayGraphForKeyValueParty(obj) {
+function displayGraphForKeyValueParty(obj,id) {
     console.log("graph");
     const labels = Object.keys(obj);
     const data = Object.values(obj);
-    const ctx = document.getElementById("partyChart").getContext("2d");
+    const ctx = document.getElementById(id).getContext("2d");
     const genderChart = new Chart(ctx, {
         type: "bar",
         data: {
@@ -155,7 +185,7 @@ function displayGraphForKeyValueParty(obj) {
         }
     });
 }
-function displayGraphForKeyValuePartyWardWise(data) {
+function displayGraphForKeyValuePartyWardWise(data,id) {
     console.log("graph");
     const wardNumbers = Object.keys(data);
     // Extract the parties from the object    
@@ -170,7 +200,7 @@ function displayGraphForKeyValuePartyWardWise(data) {
         counts.push(countsForWard);
     }
     // Create the chart    
-    const ctx = document.getElementById("myChart").getContext("2d");
+    const ctx = document.getElementById(id).getContext("2d");
     const chart = new Chart(ctx, {
         type: "bar",
         data: {
